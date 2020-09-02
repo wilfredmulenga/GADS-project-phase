@@ -13,6 +13,7 @@ I got to deploy a LAMP stack to a Compute Engine instance.
 and advanced VMs.
 To build what I built in the lab using the command line:  
  Task 1: Creating a utility VM  
+ ```
  export ZONE='us-central1-c'  
  export INSTANCE_NAME='my-new-instance'  
  export INSTANCE_TYPE='n1-standard-1'  
@@ -20,6 +21,7 @@ To build what I built in the lab using the command line:
           --zone=$ZONE \  
           --machine-type=$INSTANCE_TYPE \  
           --network-interface=no-address
+```
 
 In the gcloud command, the 'no-address' value in the --network-interface option means that an external IP 
 will not be created for this VM.
