@@ -28,7 +28,7 @@ will not be created for this VM.
  export ZONE='europe-west2-a'  
  export INSTANCE_NAME='windows-instance'  
  export INSTANCE_TYPE='n1-standard-2'  
- export IMAGE_FAMILY='windows-server-2016-dc-core-v20200813'
+ export IMAGE_FAMILY='windows-server-2016-dc-core-v20200813'  
  export IMAGE_PROJECT='windows-core'
  gcloud compute instances create $INSTANCE_NAME \    
           --zone=$ZONE \    
