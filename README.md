@@ -27,6 +27,7 @@ In the gcloud command, the 'no-address' value in the --network-interface option 
 will not be created for this VM.
 
  Task 2: Creating a Windows VM
+ ```
  export ZONE='europe-west2-a'  
  export INSTANCE_NAME='windows-instance'  
  export INSTANCE_TYPE='n1-standard-2'  
@@ -37,6 +38,7 @@ will not be created for this VM.
           --machine-type=$INSTANCE_TYPE \    
           --image-family=$IMAGE_FAMILY  \
           --image-project=$IMAGE_PROJECT
+```
 
 <!-- TODO: add flag to allow http & https traffic -->
 
@@ -44,11 +46,13 @@ To find the name of the image that I needed I used the command `gcloud compute i
 a full list of public images with their image names, versions numbers, and image sizes.   
 
  Task 3: Create a custom virtual machine  
+ ```
  export ZONE='us-west1-b'    
  export INSTANCE_NAME='custom-instance'   
  export INSTANCE_TYPE='n1-standard-2'    
  gcloud compute instances create $INSTANCE_NAME \      
           --zone=$ZONE \        
           --custom-cpu=6  
-          --custom-memory=32    
+          --custom-memory=32
+```
 
