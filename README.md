@@ -4,13 +4,10 @@ Here is a repo with details of the labs I took during the project phase of the G
 folder contains screenshots of the confirmation email sent from Qwiklabs about the completion of a lab. I used the  
 (gcloud reference)[https://cloud.google.com/sdk/gcloud/reference] to find the description of the gcloud commands.
 
-31/08/2020
--  I did the lab on Google Cloud Fundamentals: Getting Started with Cloud Marketplace. In this lab,
-I got to deploy a LAMP stack to a Compute Engine instance.
 
-01/09/2020
--  I did the lab on Creating Virtual Machines. In this lab, I learnt how to create several standard
-and advanced VMs.
+## Lab: Creating Virtual Machines
+ In this lab, I learnt how to create several standard and advanced VMs.
+
 To build what I built in the lab using the command line:  
  Task 1: Creating a utility VM  
  ```
@@ -57,7 +54,6 @@ a full list of public images with their image names, versions numbers, and image
           --custom-memory=32
 ```
 
-05/09/2020
 ## Lab: Google Cloud Fundamentals: Getting Started with Cloud Storage and Cloud SQL 
 
 ### Objectives
@@ -168,10 +164,12 @@ if (mysqli_connect_error()) {
 
   In the broswer, we should see a connection error. Open nano editor and replace `CLOUDSQLIP` with the `Primary Address` of the
   SQL instance and `DBPASSWORD` with the password we noted earlier. 
+  
   Restart the web server
 ```
   sudo service apache2 restart
 ```
+  
   We should see that we have successfully connected to the database
 
   6. Configure an application in a Compute Engine instance to use a Cloud Storage object
@@ -185,13 +183,16 @@ if (mysqli_connect_error()) {
 ```
  gsutil ls -r gs://BUCKET_NAME/**
 ```
+  
   We should see that we have a file named, "my-excellent-blog.png". We are going to make it publicly readable by running this command.
 ```
   gsutil acl ch -u AllUsers:R gs://[BUCKET_NAME]/my-excellent-blog.png
 ```
+  
   After executing that command, we should get the publicly accessible link to the file. We then return to the index.php
   file we created in the previous steps and add an `img` tag and give the src prop the link to "my-excellent-blog.png"
   in our bucket. 
+  
   Last we restart the server
 ```
   sudo service apache2 restart
