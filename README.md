@@ -42,8 +42,6 @@ a full list of public images with their image names, versions numbers, and image
 
 ```
 
-<!-- TODO: add flag to allow http & https traffic -->
-
  Task 3: Create a custom virtual machine  
  ```
  export ZONE='us-west1-b'    
@@ -53,6 +51,71 @@ a full list of public images with their image names, versions numbers, and image
           --zone=$ZONE \        
           --custom-cpu=6 \
           --custom-memory=32
+```
+
+## Lab: App Dev: Setting up a Development Environment v1.1 
+
+### Tasks 
+  1. Creating a Compute Engine Virtual Machine Instance
+  We are going to create a VM instance will full access scopes and allow http traffic
+```
+ export ZONE='us-central1-a'    
+ export INSTANCE_NAME='dev-instance'   
+ gcloud compute instances create $INSTANCE_NAME --zone=$ZONE --scopes=cloud-platform --subnet "default" --tags http-server    
+        
+```
+
+  We take note of the VM's external IP address.
+
+  Then we create a firewall rule to allow http traffic on that VM
+```
+gcloud compute --project=XXXX firewall-rules create default-allow-http --direction=INGRESS --priority=1000 --network=default --action=ALLOW 
+--rules=tcp:80 --source-ranges=0.0.0.0/0 --target-tags=http-server
+```
+
+  2. Install software on the VM instance
+  We first ssh into the VM we just created. After running the command, we can accept the prompts and leave `passphrase` blank
+```
+  gcloud compute ssh $INSTANCE_NAME --zone=$ZONE 
+```
+  Next we update packages and install git and node
+```
+sudo apt-get update 
+```
+```
+sudo apt-get install git 
+```
+```
+curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash - 
+```
+```
+sudo apt install nodejs 
+```
+
+ 3. Configure the VM to Run Application Software
+ We check the version of node installede
+```
+  node -v
+```
+
+  Then we clone the class repository
+```
+ git clone https://github.com/GoogleCloudPlatform/training-data-analyst 
+```
+
+  We then, change to the repository's root directory
+```
+  cd ~/training-data-analyst/courses/developingapps/nodejs/devenv/
+```
+
+  Next, we run the node server
+```
+  sudo node server/app.js
+```
+
+  We can test that the application is running using curl and the external IP address of the VM instance
+```
+  curl <vm-ip-address>
 ```
 
 ## Lab: Google Cloud Fundamentals: Getting Started with Cloud Storage and Cloud SQL 
@@ -89,15 +152,15 @@ service apache2 restart
  export IMAGE_NAME='debian-9-stretch-v20200902'  
  export IMAGE_PROJECT='debian-cloud'
  export ZONE='us-central1-a'
- gcloud compute instances create $VM_INSTANCE_NAME --zone=$ZONE --image-project=$IMAGE_PROJECT --image=$IMAGE_NAME --subnet "default" --tags http --metadata-from-file startup-script=startup.sh
+ gcloud compute instances create $VM_INSTANCE_NAME --zone=$ZONE --image-project=$IMAGE_PROJECT --image=$IMAGE_NAME --subnet "default" --tags http-server --metadata-from-file startup-script=startup.sh
 ```
 
     We take note of the internal and external IP address of the VM instance from the output printed out.
 
     Then we create a firewall rule to allow http traffic on that VM
 ```
- gcloud compute firewall-rules create allow-http --action=ALLOW --direction=INGRESS --rules=tcp:80 --target-tags=http
-
+gcloud compute --project=XXXX firewall-rules create default-allow-http --direction=INGRESS --priority=1000 --network=default --action=ALLOW 
+--rules=tcp:80 --source-ranges=0.0.0.0/0 --target-tags=http-server
 ```
     Lastly, we run a startup script
 ```
@@ -236,3 +299,6 @@ if (mysqli_connect_error()) {
   When we navigate to the index.php file in our browser, we should see the banner image. 
   
   That is all for this lab.
+
+  labs in phase 1:
+  Getting started with Cloud Marketplace
