@@ -24,6 +24,10 @@ In the gcloud command, the 'no-address' value in the --network-interface option 
 will not be created for this VM.
 
  Task 2: Creating a Windows VM
+
+ To find the name of the image that I needed I used the command `gcloud compute images list` which returns  
+a full list of public images with their image names, versions numbers, and image sizes. 
+
  ```
  export ZONE='europe-west2-a'  
  export INSTANCE_NAME='windows-instance'  
@@ -39,9 +43,6 @@ will not be created for this VM.
 ```
 
 <!-- TODO: add flag to allow http & https traffic -->
-
-To find the name of the image that I needed I used the command `gcloud compute images list` which returns  
-a full list of public images with their image names, versions numbers, and image sizes.   
 
  Task 3: Create a custom virtual machine  
  ```
@@ -70,18 +71,33 @@ gcloud config set project PROJECT_ID
 ```
 
   2. Deploy a web server VM instance 
-     First we create an VM instance 
+
+    First we would need to create a startup script for the VM. We will use nano editor to create the file. 
+```
+nano startup.sh
+```
+
+    We then paste the following into the editor then press `Ctrl + O` to save and `Ctrl + X` to exit the editor:
+```
+apt-get update
+apt-get install apache2 php php-mysql -y
+service apache2 restart
+```
+    Next we run the following command to create the VM instance 
 ```
  export VM_INSTANCE_NAME='bloghost'  
  export IMAGE_NAME='debian-9-stretch-v20200902'  
  export IMAGE_PROJECT='debian-cloud'
- gcloud compute instances create $VM_INSTANCE_NAME --image-project=$IMAGE_PROJECT --image=$IMAGE_NAME --subnet "default" --tags http
+ export ZONE='us-central1-a'
+ gcloud compute instances create $VM_INSTANCE_NAME --zone=$ZONE --image-project=$IMAGE_PROJECT --image=$IMAGE_NAME --subnet "default" --tags http --metadata-from-file startup-script=startup.sh
 ```
-    Then we allow http traffic on that VM
+
+    We take note of the internal and external IP address of the VM instance from the output printed out.
+
+    Then we create a firewall rule to allow http traffic on that VM
 ```
  gcloud compute firewall-rules create allow-http --action=ALLOW --direction=INGRESS --rules=tcp:80 --target-tags=http
 
-<!-- TODO: see how to add a start-up script using gcloud -->
 ```
     Lastly, we run a startup script
 ```
@@ -94,15 +110,34 @@ gcloud config set project PROJECT_ID
 
     We create a storage bucket and give it a name which is the project ID 
 ```
-    gsutil mb gs://$DEVSHELL_PROJECT_ID
+    export LOCATION=US
+    gsutil mb -l $LOCATION gs://$DEVSHELL_PROJECT_ID
 ```
 
+    Retrieve a banner image from a publicly accessible Cloud Storage location:
+```
+gsutil cp gs://cloud-training/gcpfci/my-excellent-blog.png my-excellent-blog.png
+```
+
+    Copy the banner image to your newly created Cloud Storage bucket:
+```
+gsutil cp my-excellent-blog.png gs://$DEVSHELL_PROJECT_ID/my-excellent-blog.png
+```
+
+    Modify the Access Control List of the object you just created so that it is readable by everyone:
+```
+gsutil acl ch -u allUsers:R gs://$DEVSHELL_PROJECT_ID/my-excellent-blog.png
+```
+
+
   4. Create the Cloud SQL instance
-<!-- TODO: specify the region and zone -->
+
+  We use the external IP address of the VM instance we created earlier as a network for the SQL instance we create. We append `/32` to the IP address
 ```
     export DB_INSTANCE_NAME='blog-db'
+    export VM_INSTANCE_IP='35.202.51.110/32'
     export ROOT_PASSWORD='StrongPasswordHere'
-    gcloud sql instances create $DB_INSTANCE_NAME  --database-version=MYSQL_5_7 --root-password=$ROOT_PASSWORD 
+    gcloud sql instances create $DB_INSTANCE_NAME --zone=$ZONE --database-version=MYSQL_5_7 --root-password=$ROOT_PASSWORD --authorized-networks=$VM_INSTANCE 
 ```
   After running this command, details of the instance will be returned. We will use the `Primary Address` that we are given.
   5. Configure an application in a Compute Engine instance to use Cloud SQL
