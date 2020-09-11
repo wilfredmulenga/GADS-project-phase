@@ -2,7 +2,7 @@
 
 Here is a repo with details of the labs I took during the project phase of the GADS GCP Cloud track. The screenshots
 folder contains screenshots of the confirmation email sent from Qwiklabs about the completion of a lab. I used the  
-(gcloud reference)[https://cloud.google.com/sdk/gcloud/reference] to find the description of the gcloud commands.
+[gcloud reference](https://cloud.google.com/sdk/gcloud/reference) to find the description of the gcloud commands.
 
 
 ## Lab: Creating Virtual Machines
