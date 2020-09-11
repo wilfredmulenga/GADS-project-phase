@@ -1,11 +1,11 @@
-## Project Phase- GADS GCP Cloud track
+# Project Phase- GADS GCP Cloud track
 
 Here is a repo with details of the labs I took during the project phase of the GADS GCP Cloud track. The screenshots
 folder contains screenshots of the confirmation email sent from Qwiklabs about the completion of a lab. I used the  
 [gcloud reference](https://cloud.google.com/sdk/gcloud/reference) to find the description of the gcloud commands.
 
 
-## Lab: Creating Virtual Machines
+## Lab 1: Creating Virtual Machines
  In this lab, I learnt how to create several standard and advanced VMs.
 
 To build what I built in the lab using the command line:  
@@ -14,10 +14,7 @@ To build what I built in the lab using the command line:
  export ZONE='us-central1-c'  
  export INSTANCE_NAME='my-new-instance'  
  export INSTANCE_TYPE='n1-standard-1'  
- gcloud compute instances create $INSTANCE_NAME \  
-          --zone=$ZONE \  
-          --machine-type=$INSTANCE_TYPE \  
-          --network-interface=no-address
+ gcloud compute instances create $INSTANCE_NAME --zone=$ZONE --machine-type=$INSTANCE_TYPE --network-interface=no-address
 ```
 
 In the gcloud command, the 'no-address' value in the --network-interface option means that an external IP 
@@ -34,12 +31,8 @@ a full list of public images with their image names, versions numbers, and image
  export INSTANCE_TYPE='n1-standard-2'  
  export IMAGE_FAMILY='windows-server-2016-dc-core-v20200813'  
  export IMAGE_PROJECT='windows-core'
- gcloud compute instances create $INSTANCE_NAME \    
-          --zone=$ZONE \    
-          --machine-type=$INSTANCE_TYPE \    
-          --image-family=$IMAGE_FAMILY  \
-          --image-project=$IMAGE_PROJECT
-
+ gcloud compute instances create $INSTANCE_NAME --zone=$ZONE --machine-type=$INSTANCE_TYPE --image-family=$IMAGE_FAMILY
+  --image-project=$IMAGE_PROJECT
 ```
 
  Task 3: Create a custom virtual machine  
@@ -47,13 +40,10 @@ a full list of public images with their image names, versions numbers, and image
  export ZONE='us-west1-b'    
  export INSTANCE_NAME='custom-instance'   
  export INSTANCE_TYPE='n1-standard-2'    
- gcloud compute instances create $INSTANCE_NAME \      
-          --zone=$ZONE \        
-          --custom-cpu=6 \
-          --custom-memory=32
+ gcloud compute instances create $INSTANCE_NAME --zone=$ZONE --custom-cpu=6 --custom-memory=32
 ```
 
-## Lab: App Dev: Setting up a Development Environment v1.1 
+## Lab 2: App Dev: Setting up a Development Environment v1.1 
 
 ### Tasks 
   1. Creating a Compute Engine Virtual Machine Instance
@@ -62,7 +52,6 @@ a full list of public images with their image names, versions numbers, and image
  export ZONE='us-central1-a'    
  export INSTANCE_NAME='dev-instance'   
  gcloud compute instances create $INSTANCE_NAME --zone=$ZONE --scopes=cloud-platform --subnet "default" --tags http-server    
-        
 ```
 
   We take note of the VM's external IP address.
@@ -118,7 +107,7 @@ sudo apt install nodejs
   curl <vm-ip-address>
 ```
 
-## Lab: Google Cloud Fundamentals: Getting Started with Cloud Storage and Cloud SQL 
+## Lab 3: Google Cloud Fundamentals: Getting Started with Cloud Storage and Cloud SQL 
 
 ### Objectives
  - Create a Cloud Storage bucket and place an image into it.
@@ -136,6 +125,7 @@ gcloud config set project PROJECT_ID
   2. Deploy a web server VM instance 
 
     First we would need to create a startup script for the VM. We will use nano editor to create the file. 
+
 ```
 nano startup.sh
 ```
@@ -146,6 +136,7 @@ apt-get update
 apt-get install apache2 php php-mysql -y
 service apache2 restart
 ```
+
     Next we run the following command to create the VM instance 
 ```
  export VM_INSTANCE_NAME='bloghost'  
@@ -162,6 +153,7 @@ service apache2 restart
 gcloud compute --project=XXXX firewall-rules create default-allow-http --direction=INGRESS --priority=1000 --network=default --action=ALLOW 
 --rules=tcp:80 --source-ranges=0.0.0.0/0 --target-tags=http-server
 ```
+
     Lastly, we run a startup script
 ```
     sudo apt-get update 
@@ -172,22 +164,26 @@ gcloud compute --project=XXXX firewall-rules create default-allow-http --directi
   3. Create a Cloud Storage bucket using the gsutil command line
 
     We create a storage bucket and give it a name which is the project ID 
+
 ```
     export LOCATION=US
     gsutil mb -l $LOCATION gs://$DEVSHELL_PROJECT_ID
 ```
 
     Retrieve a banner image from a publicly accessible Cloud Storage location:
+
 ```
 gsutil cp gs://cloud-training/gcpfci/my-excellent-blog.png my-excellent-blog.png
 ```
 
     Copy the banner image to your newly created Cloud Storage bucket:
+
 ```
 gsutil cp my-excellent-blog.png gs://$DEVSHELL_PROJECT_ID/my-excellent-blog.png
 ```
 
     Modify the Access Control List of the object you just created so that it is readable by everyone:
+
 ```
 gsutil acl ch -u allUsers:R gs://$DEVSHELL_PROJECT_ID/my-excellent-blog.png
 ```
@@ -298,7 +294,5 @@ if (mysqli_connect_error()) {
 
   When we navigate to the index.php file in our browser, we should see the banner image. 
   
-  That is all for this lab.
+  That is all for this labs. If you have a query, feel free to create an issue
 
-  labs in phase 1:
-  Getting started with Cloud Marketplace
