@@ -8,8 +8,13 @@ folder contains screenshots of the confirmation email sent from Qwiklabs about t
 ## Lab 1: Creating Virtual Machines
  In this lab, I learnt how to create several standard and advanced VMs.
 
+### Objectives
+  - Create several standard VMs
+  - Create advanced VMs
+
+### Tasks
 To build what I built in the lab using the command line:  
- Task 1: Creating a utility VM  
+ 1. Creating a utility VM  
  ```
  export ZONE='us-central1-c'  
  export INSTANCE_NAME='my-new-instance'  
@@ -20,7 +25,7 @@ To build what I built in the lab using the command line:
 In the gcloud command, the 'no-address' value in the --network-interface option means that an external IP 
 will not be created for this VM.
 
- Task 2: Creating a Windows VM
+ 2. Creating a Windows VM
 
  To find the name of the image that I needed I used the command `gcloud compute images list` which returns  
 a full list of public images with their image names, versions numbers, and image sizes. 
@@ -35,7 +40,7 @@ a full list of public images with their image names, versions numbers, and image
   --image-project=$IMAGE_PROJECT
 ```
 
- Task 3: Create a custom virtual machine  
+ 3. Create a custom virtual machine  
  ```
  export ZONE='us-west1-b'    
  export INSTANCE_NAME='custom-instance'   
@@ -44,6 +49,13 @@ a full list of public images with their image names, versions numbers, and image
 ```
 
 ## Lab 2: App Dev: Setting up a Development Environment v1.1 
+
+### Objectives
+ - Provision a Google Compute Engine instance.
+ - Connect to the instance using SSH.
+ - Install software on the instance.
+ - Verify the software installation.
+
 
 ### Tasks 
   1. Creating a Compute Engine Virtual Machine Instance
