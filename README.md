@@ -202,9 +202,10 @@ gsutil acl ch -u allUsers:R gs://$DEVSHELL_PROJECT_ID/my-excellent-blog.png
 ```
 
   After running this command, details of the instance will be returned. We will use the `Primary Address` that we are given.
-  5. Configure an application in a Compute Engine instance to use Cloud SQL
 
+  5. Configure an application in a Compute Engine instance to use Cloud SQL
   First we ssh into our VM
+
 ```
     gcloud compute ssh $VM_INSTANCE_NAME
 ```
