@@ -123,12 +123,9 @@ gcloud config set project PROJECT_ID
 ```
 
   2. Deploy a web server VM instance 
+  First we would need to create a startup script for the VM. We will use nano editor to create the file. 
 
-    First we would need to create a startup script for the VM. We will use nano editor to create the file. 
-
-```
-nano startup.sh
-```
+`nano startup.sh`
 
     We then paste the following into the editor then press `Ctrl + O` to save and `Ctrl + X` to exit the editor:
 ```
