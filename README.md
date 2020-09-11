@@ -124,7 +124,7 @@ gcloud config set project PROJECT_ID
 
   2. Deploy a web server VM instance 
   First we would need to create a startup script for the VM. We will use nano editor to create the file. 
-  
+
 ```
 nano startup.sh
 ```
@@ -137,7 +137,8 @@ apt-get install apache2 php php-mysql -y
 service apache2 restart
 ```
 
-    Next we run the following command to create the VM instance 
+  Next we run the following command to create the VM instance.
+
 ```
  export VM_INSTANCE_NAME='bloghost'  
  export IMAGE_NAME='debian-9-stretch-v20200902'  
@@ -146,15 +147,17 @@ service apache2 restart
  gcloud compute instances create $VM_INSTANCE_NAME --zone=$ZONE --image-project=$IMAGE_PROJECT --image=$IMAGE_NAME --subnet "default" --tags http-server --metadata-from-file startup-script=startup.sh
 ```
 
-    We take note of the internal and external IP address of the VM instance from the output printed out.
+  We take note of the internal and external IP address of the VM instance from the output printed out.
 
-    Then we create a firewall rule to allow http traffic on that VM
+  Then we create a firewall rule to allow http traffic on that VM
+
 ```
 gcloud compute --project=XXXX firewall-rules create default-allow-http --direction=INGRESS --priority=1000 --network=default --action=ALLOW 
 --rules=tcp:80 --source-ranges=0.0.0.0/0 --target-tags=http-server
 ```
 
     Lastly, we run a startup script
+
 ```
     sudo apt-get update 
     sudo apt-get install apache2 php php-mysql -y 
@@ -162,27 +165,26 @@ gcloud compute --project=XXXX firewall-rules create default-allow-http --directi
 ```
 
   3. Create a Cloud Storage bucket using the gsutil command line
-
-    We create a storage bucket and give it a name which is the project ID 
+  We create a storage bucket and give it a name which is the project ID 
 
 ```
     export LOCATION=US
     gsutil mb -l $LOCATION gs://$DEVSHELL_PROJECT_ID
 ```
 
-    Retrieve a banner image from a publicly accessible Cloud Storage location:
+  Retrieve a banner image from a publicly accessible Cloud Storage location:
 
 ```
 gsutil cp gs://cloud-training/gcpfci/my-excellent-blog.png my-excellent-blog.png
 ```
 
-    Copy the banner image to your newly created Cloud Storage bucket:
+  Copy the banner image to your newly created Cloud Storage bucket:
 
 ```
 gsutil cp my-excellent-blog.png gs://$DEVSHELL_PROJECT_ID/my-excellent-blog.png
 ```
 
-    Modify the Access Control List of the object you just created so that it is readable by everyone:
+  Modify the Access Control List of the object you just created so that it is readable by everyone:
 
 ```
 gsutil acl ch -u allUsers:R gs://$DEVSHELL_PROJECT_ID/my-excellent-blog.png
@@ -190,14 +192,15 @@ gsutil acl ch -u allUsers:R gs://$DEVSHELL_PROJECT_ID/my-excellent-blog.png
 
 
   4. Create the Cloud SQL instance
-
   We use the external IP address of the VM instance we created earlier as a network for the SQL instance we create. We append `/32` to the IP address
+
 ```
     export DB_INSTANCE_NAME='blog-db'
     export VM_INSTANCE_IP='35.202.51.110/32'
     export ROOT_PASSWORD='StrongPasswordHere'
     gcloud sql instances create $DB_INSTANCE_NAME --zone=$ZONE --database-version=MYSQL_5_7 --root-password=$ROOT_PASSWORD --authorized-networks=$VM_INSTANCE 
 ```
+
   After running this command, details of the instance will be returned. We will use the `Primary Address` that we are given.
   5. Configure an application in a Compute Engine instance to use Cloud SQL
 
@@ -294,5 +297,5 @@ if (mysqli_connect_error()) {
 
   When we navigate to the index.php file in our browser, we should see the banner image. 
   
-  That is all for this labs. If you have a query, feel free to create an issue
+  That is all for these labs. If you have a query, feel free to create an issue.
 
