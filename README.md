@@ -156,7 +156,7 @@ gcloud compute --project=XXXX firewall-rules create default-allow-http --directi
 --rules=tcp:80 --source-ranges=0.0.0.0/0 --target-tags=http-server
 ```
 
-    Lastly, we run a startup script
+  Lastly, we run a startup script.
 
 ```
     sudo apt-get update 
