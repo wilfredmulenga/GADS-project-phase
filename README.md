@@ -128,6 +128,7 @@ gcloud config set project PROJECT_ID
 `nano startup.sh`
 
     We then paste the following into the editor then press `Ctrl + O` to save and `Ctrl + X` to exit the editor:
+    
 ```
 apt-get update
 apt-get install apache2 php php-mysql -y
