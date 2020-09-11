@@ -6,7 +6,6 @@ folder contains screenshots of the confirmation email sent from Qwiklabs about t
 
 
 ## Lab 1: Creating Virtual Machines
- In this lab, I learnt how to create several standard and advanced VMs.
 
 ### Objectives
   - Create several standard VMs
